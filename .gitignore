@@ -1,0 +1,17 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
+.gradle/
+SBR.iml
+classes/
+sbr-web/out/
+sbr-web/target/
+backend/out/
+backend/target/
+
+client/target
+client/out
+client/src/main/resources/static/build
+client/**/*.css
+client-web/target
+client-web/**/*.css
+*.log

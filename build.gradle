@@ -1,0 +1,68 @@
+defaultTasks 'clean', 'build'
+
+subprojects {
+    ext {
+        versions = [
+                junit      : '4.12',
+                jstl       : '1.2',
+                javax      : '3.1.0',
+                spring_boot: '2.1.2.RELEASE',
+        ]
+
+        libs = [:]
+
+        libs.jstl = ["javax.servlet:jstl:${versions.jstl}"]
+
+        libs.javax = ["javax.servlet:javax.servlet-api:${versions.javax}"]
+
+        libs.spring_boot_web = ["org.springframework.boot:spring-boot-starter-web:${versions.spring_boot}"]
+
+        libs.test = ["org.springframework.boot:spring-boot-starter-test:${versions.spring_boot}"]
+
+        libs.appengine = ["com.google.appengine:appengine-api-1.0-sdk:+"]
+
+        libs.appengine_test = ["com.google.appengine:appengine-testing:+",
+                               "com.google.appengine:appengine-api-stubs:+",
+                               "com.google.appengine:appengine-tools-sdk:+"]
+
+    }
+
+    apply plugin: 'java'
+    apply plugin: 'project-report'
+
+    sourceCompatibility = targetCompatibility = 1.8
+
+    compileJava {
+        options.encoding = "UTF-8"
+    }
+    compileTestJava {
+        options.encoding = "UTF-8"
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/release" }
+    }
+
+    task wrapper(type: Wrapper) {
+        gradleVersion = '4.2.1'
+    }
+
+    buildDir = 'target'
+
+    version = 'beta'
+
+    test {
+        testLogging {
+            afterSuite { desc, result ->
+                if (!desc.parent) { // will match the outermost suite
+                    println "Results: " +
+                            "${result.resultType} (${result.testCount} tests, " +
+                            "${result.successfulTestCount} successes, ${result.failedTestCount} failures, " +
+                            "${result.skippedTestCount} skipped)"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,37 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "com.moowork.gradle:gradle-node-plugin:1.1.1"
+    }
+}
+
+apply plugin: 'com.moowork.node'
+
+def sourceBuildDir = 'build'
+def targetBuildDir = '../client/src/main/resources/static/build'
+
+task cleanBuild() {
+    doFirst {
+        println('Starting "cleanBuild" task...: deleting "build" folders...')
+        delete sourceBuildDir
+        delete targetBuildDir
+    }
+}
+
+clean.dependsOn cleanBuild
+
+task copyBuild(type: Copy) {
+    doFirst {
+        println('copying "build" folder')
+    }
+    from sourceBuildDir
+    into targetBuildDir
+}
+
+//build.dependsOn npm_run_build
+npm_run_build.finalizedBy(copyBuild)

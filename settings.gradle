@@ -1,0 +1,5 @@
+rootProject.name = 'sbr'
+include 'sbr-web'
+include 'client'
+include 'client-web'
+include 'backend'

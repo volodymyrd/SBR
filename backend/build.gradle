@@ -1,0 +1,40 @@
+sourceSets {
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+        resources {
+            srcDir 'src/test/resources'
+        }
+    }
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+}
+
+dependencies {
+    compile libs.spring_boot_web
+    compile libs.appengine
+}
+
+jar {
+    def cmd = "git rev-parse --short HEAD"
+    def proc = cmd.execute()
+    ext.revision = proc.text.trim()
+
+    manifest {
+        attributes(
+                "Implementation-Version": version + " build: " + ext.revision,
+                "releases-date": new Date().format("yyyy-MM-dd'T 'HH:mm:ss.SSSZZ"),
+                "Specification-Vendor": "SBR-Backend",
+                "Specification-Title": "Backend"
+        )
+    }
+
+    baseName 'backend'
+}

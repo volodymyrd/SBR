@@ -1,0 +1,57 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven { url "http://repo.spring.io/release" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url "http://repo.spring.io/snapshot" }
+    }
+    dependencies {
+        classpath 'com.google.cloud.tools:appengine-gradle-plugin:1.+'
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${versions.spring_boot}")
+    }
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
+apply plugin: 'com.google.cloud.tools.appengine'
+
+bootWar {
+    def cmd = "git rev-parse --short HEAD"
+    def proc = cmd.execute()
+    ext.revision = proc.text.trim()
+
+    manifest {
+        attributes(
+                "Implementation-Version": version + " build: " + ext.revision,
+                "releases-date": new Date().format("yyyy-MM-dd'T 'HH:mm:ss.SSSZZ"),
+                "Specification-Vendor": "SBR",
+                "Specification-Title": "SBR-Web"
+        )
+    }
+}
+
+dependencies {
+    compile project(":backend")
+    compile libs.jstl
+    
+    providedCompile libs.javax
+}
+
+configurations.all {
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    exclude group: 'org.slf4j', module: 'jul-to-slf4j'
+}
+
+springBoot {
+    mainClassName = 'com.gmail.volodymyrdotsenko.sbr.Application'
+}
+
+bootRun {
+    systemProperty "spring.config.location", "classpath:application.properties"
+}
+
+appengine {
+
+}
