@@ -13,5 +13,4 @@ client/out
 client/src/main/resources/static/build
 client/**/*.css
 client-web/target
-client-web/**/*.css
 *.log
