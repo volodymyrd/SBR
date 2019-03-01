@@ -33,9 +33,11 @@ bootWar {
 }
 
 dependencies {
+    compile project(":client")
     compile project(":backend")
+
     compile libs.jstl
-    
+
     providedCompile libs.javax
 }
 
@@ -53,5 +55,7 @@ bootRun {
 }
 
 appengine {
-
+    run {
+        jvmFlags = ['-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005']
+    }
 }
