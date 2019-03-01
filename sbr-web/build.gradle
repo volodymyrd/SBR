@@ -50,6 +50,7 @@ springBoot {
     mainClassName = 'com.gmail.volodymyrdotsenko.sbr.Application'
 }
 
+// gradle bootRun --debug-jvm
 bootRun {
     systemProperty "spring.config.location", "classpath:application.properties"
 }
