@@ -16,10 +16,13 @@ subprojects {
         libs.javax = ["javax.servlet:javax.servlet-api:${versions.javax}"]
 
         libs.spring_boot_web = ["org.springframework.boot:spring-boot-starter-web:${versions.spring_boot}"]
+        libs.spring_cloud_logging = ["org.springframework.cloud:spring-cloud-gcp-starter-logging:+"]
 
         libs.test = ["org.springframework.boot:spring-boot-starter-test:${versions.spring_boot}"]
 
         libs.appengine = ["com.google.appengine:appengine-api-1.0-sdk:+"]
+
+        libs.appengine_auth = ["com.google.auth:google-auth-library-appengine:+"]
 
         libs.appengine_test = ["com.google.appengine:appengine-testing:+",
                                "com.google.appengine:appengine-api-stubs:+",
